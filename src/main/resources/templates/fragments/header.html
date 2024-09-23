@@ -7,3 +7,18 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
+<header sec:authorize="isAnonymous()">
+    <nav>
+        <a th:href="@{/register}">Register</a>
+        <a th:href="@{/login}">Log in</a>
+    </nav>
+</header>
+<header sec:authorize="isAuthenticated()">
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/profile}">Profile</a>
+        <form method="POST" th:action="@{/logout}">
+            <input type="submit" name="logout" value="Log out">
+        </form>
+    </nav>
+</header>

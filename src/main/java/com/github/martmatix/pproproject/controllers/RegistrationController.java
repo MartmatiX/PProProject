@@ -15,7 +15,7 @@ public class RegistrationController {
 
     @GetMapping(path = "/register")
     public String returnRegistrationForm() {
-        return "/all/registration/registrationPage";
+        return "/all/registrationPage";
     }
 
     @PostMapping(path = "/register/validateRegistration")
