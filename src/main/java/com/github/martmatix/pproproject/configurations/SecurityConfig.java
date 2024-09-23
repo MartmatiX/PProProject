@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -17,10 +15,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/register", "/register/validateRegistration").permitAll()
+                                .requestMatchers("/register", "/register/validateRegistration", "/login").anonymous()
                                 .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
-                .formLogin(withDefaults());
+                .formLogin(login -> login.loginPage("/login"));
         return http.build();
     }
 }
