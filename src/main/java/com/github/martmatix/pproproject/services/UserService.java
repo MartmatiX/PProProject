@@ -10,7 +10,8 @@ public interface UserService {
 
     boolean validatePassword(String password, String passwordRepeat);
 
-    void convertUserToEntityAndSave(RegistrationFormUserDTO userDTO);
+    boolean checkUserExistence(String username);
 
+    void convertUserToEntityAndSave(RegistrationFormUserDTO userDTO);
 
 }

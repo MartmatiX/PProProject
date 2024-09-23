@@ -4,6 +4,7 @@
     <div th:if="${param.status != null}">
         <p th:if="${param.status[0] == 'notFilled'}">Please fill in all fields.</p>
         <p th:if="${param.status[0] == 'passwordNotMatched'}">Passwords do not match.</p>
+        <p th:if="${param.status[0] == 'userExists'}">Username is already taken.</p>
     </div>
     <form th:action="@{/register/validateRegistration}" method="POST">
         <label for="firstName">First name</label>

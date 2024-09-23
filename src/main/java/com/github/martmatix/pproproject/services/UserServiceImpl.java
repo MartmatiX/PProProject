@@ -7,6 +7,8 @@ import jakarta.annotation.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class UserServiceImpl implements UserService{
 
@@ -29,6 +31,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean validatePassword(String password, String passwordRepeat) {
         return password.equals(passwordRepeat);
+    }
+
+    @Override
+    public boolean checkUserExistence(String username) {
+        Optional<UserEntity> byUsername = userRepository.findByUsername(username);
+        return byUsername.isPresent();
     }
 
     @Override

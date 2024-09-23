@@ -33,6 +33,9 @@ public class RegistrationController {
         if (!userService.validatePassword(userDTO.getPassword(), userDTO.getPasswordRepeat())) {
             return "redirect:/register?status=passwordNotMatched";
         }
+        if (userService.checkUserExistence(userDTO.getUsername())) {
+            return "redirect:/register?status=userExists";
+        }
         userService.convertUserToEntityAndSave(userDTO);
         return "redirect:/register?status=success";
     }
