@@ -1,6 +1,10 @@
 <th:block th:replace="~{/fragments/header.html}"></th:block>
 
 <main>
+    <div th:if="${param.status != null}">
+        <p th:if="${param.status[0] == 'notFilled'}">Please fill in all fields.</p>
+        <p th:if="${param.status[0] == 'passwordNotMatched'}">Passwords do not match.</p>
+    </div>
     <form th:action="@{/register/validateRegistration}" method="POST">
         <label for="firstName">First name</label>
         <input id="firstName" name="firstName" type="text" required>
@@ -8,6 +12,8 @@
         <input id="lastName" name="lastName" type="text" required>
         <label for="email">E-mail</label>
         <input id="email" name="email" type="email" required>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required>
         <label for="password">Password</label>
         <input id="password" name="password" type="password" required>
         <label for="passwordRepeat">Repeat password</label>

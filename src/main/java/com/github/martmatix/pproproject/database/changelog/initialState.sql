@@ -8,7 +8,7 @@ create table user(
     id int auto_increment not null primary key,
     name varchar(64),
     surname varchar(64),
-    mail varchar(255),
+    email varchar(255),
     username varchar(64),
     password varchar(255)
 )
