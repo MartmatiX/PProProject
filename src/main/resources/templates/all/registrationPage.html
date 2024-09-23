@@ -1,26 +1,42 @@
 <th:block th:replace="~{/fragments/header.html}"></th:block>
 
-<main>
-    <div th:if="${param.status != null}">
-        <p th:if="${param.status[0] == 'notFilled'}">Please fill in all fields.</p>
-        <p th:if="${param.status[0] == 'passwordNotMatched'}">Passwords do not match.</p>
-        <p th:if="${param.status[0] == 'userExists'}">Username is already taken.</p>
+<div class="d-flex justify-content-center align-items-center">
+    <h3>Registration</h3>
+</div>
+<div class="d-flex justify-content-center align-items-center text-danger" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'notFilled'}">Please fill in all fields!</p>
+    <p th:if="${param.status[0] == 'passwordNotMatched'}">Passwords do not match!</p>
+    <p th:if="${param.status[0] == 'userExists'}">Username is already taken!</p>
+</div>
+<form class="d-flex justify-content-center align-items-center" th:action="@{/register/validateRegistration}"
+      method="POST">
+    <div class="d-flex flex-column w-25">
+        <div class="pt-3 d-flex flex-column">
+            <label class="pb-1" for="firstName">First name</label>
+            <input th:value="${userDTO?.firstName}" class="p-1 border rounded" id="firstName" name="firstName" type="text" placeholder="First name" required>
+        </div>
+        <div class="pt-3 d-flex flex-column">
+            <label class="pb-1" for="lastName">Last name</label>
+            <input th:value="${userDTO?.lastName}" class="p-1 border rounded" id="lastName" name="lastName" type="text" placeholder="Last name" required>
+        </div>
+        <div class="pt-3 d-flex flex-column">
+            <label class="pb-1" for="email">E-mail</label>
+            <input th:value="${userDTO?.email}" class="p-1 border rounded" id="email" name="email" type="email" placeholder="E-mail" required>
+        </div>
+        <div class="pt-3 d-flex flex-column">
+            <label class="pb-1" for="username">Username</label>
+            <input th:value="${userDTO?.username}" class="p-1 border rounded" id="username" name="username" type="text" placeholder="Username" required>
+        </div>
+        <div class="pt-3 d-flex flex-column">
+            <label class="pb-1" for="password">Password</label>
+            <input class="p-1 border rounded" id="password" name="password" type="password" placeholder="Password" required>
+        </div>
+        <div class="pt-3 d-flex flex-column">
+            <label class="pb-1" for="passwordRepeat">Repeat password</label>
+            <input class="p-1 border rounded" id="passwordRepeat" name="passwordRepeat" type="password" placeholder="Password repeat" required>
+        </div>
+        <input class="mt-3 btn btn-success w-75 align-self-center" type="submit" value="Register">
     </div>
-    <form th:action="@{/register/validateRegistration}" method="POST">
-        <label for="firstName">First name</label>
-        <input id="firstName" name="firstName" type="text" required>
-        <label for="lastName">Last name</label>
-        <input id="lastName" name="lastName" type="text" required>
-        <label for="email">E-mail</label>
-        <input id="email" name="email" type="email" required>
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text" required>
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" required>
-        <label for="passwordRepeat">Repeat password</label>
-        <input id="passwordRepeat" name="passwordRepeat" type="password" required>
-        <input type="submit" value="Register">
-    </form>
-</main>
+</form>
 
 <th:block th:replace="~{/fragments/footer.html}"></th:block>

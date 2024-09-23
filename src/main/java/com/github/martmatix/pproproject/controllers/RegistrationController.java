@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegistrationController {
@@ -19,7 +20,7 @@ public class RegistrationController {
     }
 
     @PostMapping(path = "/register/validateRegistration")
-    public String validateRegistrationForm(@ModelAttribute("registrationUser")RegistrationFormUserDTO userDTO) {
+    public String validateRegistrationForm(@ModelAttribute("registrationUser")RegistrationFormUserDTO userDTO, RedirectAttributes attributes) {
         if (userService.isValueEmpty(
                 userDTO.getFirstName(),
                 userDTO.getLastName(),
@@ -28,16 +29,25 @@ public class RegistrationController {
                 userDTO.getPassword(),
                 userDTO.getPasswordRepeat()
         )) {
+            returnDTOUponError(userDTO, attributes);
             return "redirect:/register?status=notFilled";
         }
         if (!userService.validatePassword(userDTO.getPassword(), userDTO.getPasswordRepeat())) {
+            returnDTOUponError(userDTO, attributes);
             return "redirect:/register?status=passwordNotMatched";
         }
         if (userService.checkUserExistence(userDTO.getUsername())) {
+            returnDTOUponError(userDTO, attributes);
             return "redirect:/register?status=userExists";
         }
         userService.convertUserToEntityAndSave(userDTO);
-        return "redirect:/register?status=success";
+        return "redirect:/login?register=success";
+    }
+
+    private void returnDTOUponError(RegistrationFormUserDTO userDTO, RedirectAttributes attributes) {
+        userDTO.setPassword("");
+        userDTO.setPasswordRepeat("");
+        attributes.addFlashAttribute("userDTO", userDTO);
     }
 
     @Autowired
