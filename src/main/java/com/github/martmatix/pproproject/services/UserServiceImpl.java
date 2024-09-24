@@ -47,7 +47,13 @@ public class UserServiceImpl implements UserService{
         user.setEmail(userDTO.getEmail());
         user.setUsername(userDTO.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+        user.setEnabled(false);
         userRepository.save(user);
+    }
+
+    @Override
+    public Optional<UserEntity> getUser(String username) {
+        return userRepository.findByUsername(username);
     }
 
 }

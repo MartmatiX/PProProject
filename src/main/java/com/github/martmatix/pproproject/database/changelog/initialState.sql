@@ -11,13 +11,24 @@ create table user
     surname  varchar(64),
     email    varchar(255),
     username varchar(64),
-    password varchar(255)
+    password varchar(255),
+    enabled boolean
 );
 
 insert into user(name,
                  surname,
                  email,
                  username,
-                 password)
+                 password,
+                 enabled)
 values ("Martin", "Malir", "martin.malir@gmail.com", "martmatix",
-        "$2a$10$zJrpOcdVz9VWz3YocZrl/.PdoJGduKtk4v0IZmldHbAO3FzH5hI5K");
+        "$2a$10$zJrpOcdVz9VWz3YocZrl/.PdoJGduKtk4v0IZmldHbAO3FzH5hI5K", true);
+
+insert into user(name,
+                 surname,
+                 email,
+                 username,
+                 password,
+                 enabled)
+values ("admin", "admin", "admin@gmail.com", "admin",
+        "$2a$10$zJrpOcdVz9VWz3YocZrl/.PdoJGduKtk4v0IZmldHbAO3FzH5hI5K", true);
