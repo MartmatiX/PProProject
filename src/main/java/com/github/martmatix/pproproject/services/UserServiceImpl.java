@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -56,6 +57,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public Optional<UserEntity> getUser(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAllBy();
     }
 
 }
