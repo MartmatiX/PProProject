@@ -1,6 +1,7 @@
 package com.github.martmatix.pproproject.services;
 
 import com.github.martmatix.pproproject.DTOs.RegistrationFormUserDTO;
+import com.github.martmatix.pproproject.custom_authorities.Role;
 import com.github.martmatix.pproproject.database.entities.UserEntity;
 import com.github.martmatix.pproproject.database.repositories.UserRepository;
 import jakarta.annotation.Resource;
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService{
         user.setUsername(userDTO.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
         user.setEnabled(false);
+        user.setRole(Role.USER);
         userRepository.save(user);
     }
 

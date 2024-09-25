@@ -1,5 +1,6 @@
 package com.github.martmatix.pproproject.database.entities;
 
+import com.github.martmatix.pproproject.custom_authorities.Role;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,9 @@ public class UserEntity {
     private String username;
     private String password;
     private boolean enabled;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public UserEntity() {
     }
@@ -74,5 +78,13 @@ public class UserEntity {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -22,6 +22,7 @@
         </form>
         <a class="btn btn-info me-3" th:href="@{/profile}">Profile</a>
         <a class="btn btn-info me-3" th:href="@{/}">Home</a>
+        <a sec:authorize="hasAuthority('ADMINISTRATOR')" class="btn btn-info me-3" th:href="@{/admin}">Admin Panel</a>
     </nav>
 </header>
 <main class="pt-5" data-aos="zoom-in" data-aos-duration="700">

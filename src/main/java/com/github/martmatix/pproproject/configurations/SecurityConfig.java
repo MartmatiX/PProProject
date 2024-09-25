@@ -1,5 +1,6 @@
 package com.github.martmatix.pproproject.configurations;
 
+import com.github.martmatix.pproproject.custom_authorities.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/register", "/register/validateRegistration", "/login").anonymous()
+                                .requestMatchers("/admin").hasAuthority(Role.ADMINISTRATOR.getValue())
                                 .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
                 .formLogin(login -> login.loginPage("/login"));
