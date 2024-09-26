@@ -25,6 +25,7 @@ public class AdminController {
         return "/administrator/adminPage";
     }
 
+    // TODO: extract this into method, so there is no duplicate code
     @PostMapping(path = "/admin/approve/{username}")
     public String approveUser(@PathVariable String username, Principal principal) {
         String returnPath = validateByUsername(username, principal);
