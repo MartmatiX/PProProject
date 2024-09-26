@@ -1,5 +1,9 @@
 <th:block th:replace="~{/fragments/header.html}"></th:block>
 
+<div class="d-flex justify-content-center align-items-center text-danger" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'userFetchFail'}">Unable to fetch user!</p>
+</div>
+
     <p>Authenticated only</p>
 
 <th:block th:replace="~{/fragments/footer.html}"></th:block>

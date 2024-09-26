@@ -12,7 +12,7 @@
     <p th:if="${param.status[0] == 'approved'}">User approved successfully!</p>
     <p th:if="${param.status[0] == 'revoked'}">User revoked successfully!</p>
     <p th:if="${param.status[0] == 'elevated'}">User rights elevated successfully!</p>
-    <p th:if="${param.status[0] == 'revoked'}">User rights degraded successfully!</p>
+    <p th:if="${param.status[0] == 'degraded'}">User rights degraded successfully!</p>
     <p th:if="${param.status[0] == 'userDeleted' && deletedUsername != null}"
        th:text="'User ' + ${deletedUsername} + ' deleted successfully!'"></p>
 </div>

@@ -1,5 +1,54 @@
 <th:block th:replace="~{/fragments/header.html}"></th:block>
 
-<p>Profile page</p>
+<div class="d-flex justify-content-center align-items-center">
+    <p class="display-3">Profile</p>
+</div>
+<div class="d-flex justify-content-evenly align-items-center pt-5">
+    <div class="w-50">
+        <form th:action="@{/profile/updatePersonal}" method="POST">
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <td class="text-center">Name</td>
+                    <td>
+                        <input type="text" class="form-control text-center" name="name" th:value="${user.getName()}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">Surname</td>
+                    <td>
+                        <input type="text" class="form-control text-center" name="surname" th:value="${user.getSurname()}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">E-mail</td>
+                    <td>
+                        <input type="email" class="form-control text-center" name="email" th:value="${user.getEmail()}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">Username</td>
+                    <td>
+                        <input type="text" class="form-control text-center" name="username" th:value="${user.getUsername()}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">Role</td>
+                    <td>
+                        <input type="text" class="form-control text-center" name="role" th:value="${user.getRole().value}">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="w-25">
+        asdfasdf
+    </div>
+</div>
+
 
 <th:block th:replace="~{/fragments/footer.html}"></th:block>
