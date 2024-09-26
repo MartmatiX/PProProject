@@ -23,7 +23,7 @@ insert into user(name,
                  password,
                  enabled,
                  role)
-values ("Martin", "Malir", "martin.malir@gmail.com", "martmatix",
+values ("Martin", "Malir", "malirma1@uhk.cz", "martmatix",
         "$2a$10$zJrpOcdVz9VWz3YocZrl/.PdoJGduKtk4v0IZmldHbAO3FzH5hI5K", true, "USER");
 
 insert into user(name,
