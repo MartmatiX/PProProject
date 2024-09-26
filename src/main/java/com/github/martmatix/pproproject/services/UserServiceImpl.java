@@ -64,4 +64,9 @@ public class UserServiceImpl implements UserService{
         return userRepository.findAllBy();
     }
 
+    @Override
+    public void saveUser(UserEntity user) {
+        userRepository.save(user);
+    }
+
 }

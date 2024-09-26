@@ -22,4 +22,6 @@ public interface UserService {
 
     List<UserEntity> getAllUsers();
 
+    void saveUser(UserEntity user);
+
 }

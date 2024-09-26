@@ -21,7 +21,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/register", "/register/validateRegistration", "/login").anonymous()
-                                .requestMatchers("/admin").hasAuthority(Role.ADMINISTRATOR.getValue())
+                                .requestMatchers("/admin", "/admin/approve**").hasAuthority(Role.ADMINISTRATOR.getValue())
                                 .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
                 .formLogin(login -> login.loginPage("/login"));

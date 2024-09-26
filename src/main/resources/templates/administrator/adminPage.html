@@ -3,6 +3,15 @@
 <div class="d-flex justify-content-center align-items-center">
     <p class="display-3">Administration</p>
 </div>
+<div class="d-flex justify-content-center align-items-center text-danger" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'idNotValid'}">Provided ID is not valid!</p>
+    <p th:if="${param.status[0] == 'alterSelfError'}">You can not alter yourself!</p>
+    <p th:if="${param.status[0] == 'userRetrieveFail'}">Unable to retrieve user!</p>
+</div>
+<div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'approved'}">User approved successfully!</p>
+    <p th:if="${param.status[0] == 'revoked'}">User revoked successfully!</p>
+</div>
 <div class="d-flex justify-content-center align-items-center pt-5">
     <table class="table table-bordered table-hover w-75">
         <thead>
@@ -14,6 +23,7 @@
             <th>Username</th>
             <th>Enabled</th>
             <th>Role</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +35,11 @@
             <td th:text="${user.username}"></td>
             <td th:text="${user.enabled ? 'Yes' : 'No'}"></td>
             <td th:text="${user.role}"></td>
+            <td>
+                <form th:if="${#authentication.principal.username} != ${user.surname}" method="POST" th:action="${user.enabled} ? '/admin/revoke/' + ${user.username} : '/admin/approve/' + ${user.username}">
+                    <input type="submit" th:value="${user.enabled} ? 'Revoke' : 'Approve'" th:class="${user.enabled} ? 'btn btn-danger' : 'btn btn-success'">
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
