@@ -3,6 +3,9 @@
 <div class="d-flex justify-content-center align-items-center">
     <p class="display-3">Log in</p>
 </div>
+<div class="d-flex justify-content-center align-items-center text-danger">
+    <p th:if="${param.error != null}" class="text-center">Unable to log in. <br> Your credentials are either incorrect, or your account is not yet approved.</p>
+</div>
 <form class="d-flex justify-content-center align-items-center" th:action="@{/login}" method="post">
     <div class="d-flex flex-column w-25">
         <div class="pt-3 d-flex flex-column">
