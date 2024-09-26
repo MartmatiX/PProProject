@@ -1,5 +1,6 @@
 package com.github.martmatix.pproproject.controllers;
 
+import com.github.martmatix.pproproject.custom_authorities.Role;
 import com.github.martmatix.pproproject.database.entities.UserEntity;
 import com.github.martmatix.pproproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -25,7 +27,6 @@ public class AdminController {
         return "/administrator/adminPage";
     }
 
-    // TODO: extract this into method, so there is no duplicate code
     @PostMapping(path = "/admin/approve/{username}")
     public String approveUser(@PathVariable String username, Principal principal) {
         String returnPath = validateByUsername(username, principal);
@@ -34,7 +35,7 @@ public class AdminController {
         }
         Optional<UserEntity> user = userService.getUser(username);
         if (user.isEmpty()) {
-            return "redirect:/admin?status?userRetrieveFail";
+            return "redirect:/admin?status=userRetrieveFail";
         }
         UserEntity userEntity = user.get();
         userEntity.setEnabled(true);
@@ -50,12 +51,60 @@ public class AdminController {
         }
         Optional<UserEntity> user = userService.getUser(username);
         if (user.isEmpty()) {
-            return "redirect:/admin?status?userRetrieveFail";
+            return "redirect:/admin?status=userRetrieveFail";
         }
         UserEntity userEntity = user.get();
         userEntity.setEnabled(false);
         userService.saveUser(userEntity);
         return "redirect:/admin?status=revoked";
+    }
+
+    @PostMapping(path = "/admin/elevate/{username}")
+    public String elevateUser(@PathVariable String username, Principal principal) {
+        String returnPath = validateByUsername(username, principal);
+        if (returnPath != null) {
+            return returnPath;
+        }
+        Optional<UserEntity> userOptional = userService.getUser(username);
+        if (userOptional.isEmpty()) {
+            return "redirect:/admin/status=userRetrieveFail";
+        }
+        UserEntity userEntity = userOptional.get();
+        userEntity.setRole(Role.ADMINISTRATOR);
+        userService.saveUser(userEntity);
+        return "redirect:/admin?status=elevated";
+    }
+
+    @PostMapping(path = "/admin/degrade/{username}")
+    public String degradeUser(@PathVariable String username, Principal principal) {
+        String returnPath = validateByUsername(username, principal);
+        if (returnPath != null) {
+            return returnPath;
+        }
+        Optional<UserEntity> userOptional = userService.getUser(username);
+        if (userOptional.isEmpty()) {
+            return "redirect:/admin/status=userRetrieveFail";
+        }
+        UserEntity userEntity = userOptional.get();
+        userEntity.setRole(Role.USER);
+        userService.saveUser(userEntity);
+        return "redirect:/admin?status=degraded";
+    }
+
+    @PostMapping(path = "/admin/delete/{username}")
+    public String deleteUser(@PathVariable String username, Principal principal, RedirectAttributes redirectAttributes) {
+        String returnPath = validateByUsername(username, principal);
+        if (returnPath != null) {
+            return returnPath;
+        }
+        Optional<UserEntity> userOptional = userService.getUser(username);
+        if (userOptional.isEmpty()) {
+            return "redirect:/admin/status=userRetrieveFail";
+        }
+        UserEntity userEntity = userOptional.get();
+        userService.delete(userEntity);
+        redirectAttributes.addFlashAttribute("deletedUsername", username);
+        return "redirect:/admin?status=userDeleted";
     }
 
     private String validateByUsername(String username, Principal principal) {

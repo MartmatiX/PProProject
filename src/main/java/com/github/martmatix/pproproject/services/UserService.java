@@ -24,4 +24,6 @@ public interface UserService {
 
     void saveUser(UserEntity user);
 
+    void delete(UserEntity user);
+
 }

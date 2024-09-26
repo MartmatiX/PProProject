@@ -11,6 +11,9 @@
 <div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
     <p th:if="${param.status[0] == 'approved'}">User approved successfully!</p>
     <p th:if="${param.status[0] == 'revoked'}">User revoked successfully!</p>
+    <p th:if="${param.status[0] == 'elevated'}">User rights elevated successfully!</p>
+    <p th:if="${param.status[0] == 'revoked'}">User rights degraded successfully!</p>
+    <p th:if="${param.status[0] == 'userDeleted' && deletedUsername != null}" th:text="'User ' + ${deletedUsername} + ' deleted successfully!'"></p>
 </div>
 <div class="d-flex justify-content-center align-items-center pt-5">
     <table class="table table-bordered table-hover w-75">
@@ -35,14 +38,51 @@
             <td th:text="${user.username}"></td>
             <td th:text="${user.enabled ? 'Yes' : 'No'}"></td>
             <td th:text="${user.role}"></td>
-            <td>
-                <form th:if="${#authentication.principal.username} != ${user.surname}" method="POST" th:action="${user.enabled} ? '/admin/revoke/' + ${user.username} : '/admin/approve/' + ${user.username}">
-                    <input type="submit" th:value="${user.enabled} ? 'Revoke' : 'Approve'" th:class="${user.enabled} ? 'btn btn-danger' : 'btn btn-success'">
-                </form>
+            <td th:if="${#authentication.principal.username} == ${user.username}" class="bg bg-dark-subtle">
+                <div class="d-flex flex-row">
+                    <form class="me-3" th:if="${#authentication.principal.username} != ${user.username}" method="POST"
+                          th:action="${user.enabled} ? '/admin/revoke/' + ${user.username} : '/admin/approve/' + ${user.username}">
+                        <input type="submit" th:value="${user.enabled} ? 'Revoke' : 'Approve'"
+                               th:class="${user.enabled} ? 'btn btn-warning' : 'btn btn-success'">
+                    </form>
+                    <form class="me-5" th:if="${#authentication.principal.username} != ${user.username}" method="POST"
+                          th:action="${user.role != T(com.github.martmatix.pproproject.custom_authorities.Role).ADMINISTRATOR} ?
+                      '/admin/elevate/' + ${user.username} : '/admin/degrade/' + ${user.getUsername}">
+                        <input type="submit" th:value="${user.role != T(com.github.martmatix.pproproject.custom_authorities.Role).ADMINISTRATOR}
+                    ? 'Elevate' : 'Degrade'"
+                               th:class="${user.role != T(com.github.martmatix.pproproject.custom_authorities.Role).ADMINISTRATOR}
+                           ? 'btn btn-primary' : 'btn btn-secondary'">
+                    </form>
+                    <button th:if="${#authentication.principal.username} != ${user.username}" type="submit"
+                            class="btn btn-outline-danger" id="deleteButton">Delete...?
+                    </button>
+                    <form th:if="${#authentication.principal.username} != ${user.username}" style="display: none"
+                          id="deleteConfirmForm" class="ms-1" method="POST"
+                          th:action="@{/admin/delete/{username}(username=${user.username})}">
+                        <input type="submit" value="Yes" class="btn btn-danger">
+                    </form>
+                </div>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let deleteButton = document.getElementById('deleteButton');
+        let deleteForm = document.getElementById('deleteConfirmForm');
+        if (deleteButton && deleteForm) {
+            deleteButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (deleteForm.style.display === 'block') {
+                    deleteForm.style.display = 'none';
+                } else {
+                    deleteForm.style.display = 'block';
+                }
+            });
+        }
+    });
+</script>
 
 <th:block th:replace="~{/fragments/footer.html}"></th:block>
