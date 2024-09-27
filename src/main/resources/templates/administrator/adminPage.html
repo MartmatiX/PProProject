@@ -55,9 +55,9 @@
                            ? 'btn btn-primary' : 'btn btn-secondary'">
                     </form>
                     <button type="submit"
-                            class="btn btn-outline-danger" id="deleteButton">Delete...?
+                            class="btn btn-outline-danger deleteButton" id="deleteButton">Delete...?
                     </button>
-                    <form style="display: none" id="deleteConfirmForm" class="ms-1" method="POST"
+                    <form style="display: none" id="deleteConfirmForm" class="ms-1 deleteConfirmForm" method="POST"
                           th:action="@{/admin/delete/{username}(username=${user.username})}">
                         <input type="submit" value="Yes" class="btn btn-danger">
                     </form>
@@ -68,20 +68,21 @@
     </table>
 </div>
 
-<script> // TODO: If multiple buttons are present, this script breaks. Fix it
+<script>
     document.addEventListener("DOMContentLoaded", function () {
-        let deleteButton = document.getElementById('deleteButton');
-        let deleteForm = document.getElementById('deleteConfirmForm');
-        if (deleteButton && deleteForm) {
-            deleteButton.addEventListener('click', function (e) {
+        let deleteButtons = document.querySelectorAll('.deleteButton');
+        let deleteForms = document.querySelectorAll('.deleteConfirmForm');
+
+        deleteButtons.forEach(function (button, index) {
+            button.addEventListener('click', function (e) {
                 e.preventDefault();
-                if (deleteForm.style.display === 'block') {
-                    deleteForm.style.display = 'none';
+                if (deleteForms[index].style.display === 'block') {
+                    deleteForms[index].style.display = 'none';
                 } else {
-                    deleteForm.style.display = 'block';
+                    deleteForms[index].style.display = 'block';
                 }
             });
-        }
+        });
     });
 </script>
 
