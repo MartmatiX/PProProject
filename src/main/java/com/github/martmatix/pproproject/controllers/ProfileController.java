@@ -1,5 +1,6 @@
 package com.github.martmatix.pproproject.controllers;
 
+import com.github.martmatix.pproproject.DTOs.PasswordChangeUserDTO;
 import com.github.martmatix.pproproject.database.entities.UserEntity;
 import com.github.martmatix.pproproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,21 +33,39 @@ public class ProfileController {
     }
 
     @PostMapping(path = "/profile/updatePersonal")
-    public String updatePersonal(@ModelAttribute UserEntity userDTO) {
-        Optional<UserEntity> user = userService.getUser(userDTO.getUsername());
+    public String updatePersonal(@ModelAttribute UserEntity userFromForm) {
+        Optional<UserEntity> user = userService.getUser(userFromForm.getUsername());
         if (user.isEmpty()) {
             return "redirect:/?status=userFetchFail";
         }
-        String returnValue = validateUserFromForm(userDTO, user.get());
+        String returnValue = validateUserFromForm(userFromForm, user.get());
         if (returnValue != null) {
             return returnValue;
         }
         UserEntity userFromDatabase = user.get();
-        userFromDatabase.setName(userDTO.getName());
-        userFromDatabase.setSurname(userDTO.getSurname());
-        userFromDatabase.setEmail(userDTO.getEmail());
+        userFromDatabase.setName(userFromForm.getName());
+        userFromDatabase.setSurname(userFromForm.getSurname());
+        userFromDatabase.setEmail(userFromForm.getEmail());
         userService.saveUser(userFromDatabase);
-        return "redirect:/profile/" + userDTO.getUsername() + "?status=updateSuccess";
+        return "redirect:/profile/" + userFromForm.getUsername() + "?status=updateSuccess";
+    }
+
+    @PostMapping(path = "/profile/changePassword")
+    public String updatePassword(@ModelAttribute PasswordChangeUserDTO userFromForm) {
+        Optional<UserEntity> user = userService.getUser(userFromForm.getUsername());
+        if (user.isEmpty()) {
+            return "redirect:/?status=userFetchFail";
+        }
+        if (!userFromForm.getNewPassword().equals(userFromForm.getNewPasswordRepeat())) {
+            return "redirect:/profile/" + userFromForm.getUsername() + "?status=passwordMatchFail";
+        }
+        if (!encoder.matches(userFromForm.getOriginalPassword(), user.get().getPassword())) {
+            return "redirect:/profile/" + userFromForm.getUsername() + "?status=passwordMatchError";
+        }
+        UserEntity userFromDatabase = user.get();
+        userFromDatabase.setPassword(encoder.encode(userFromForm.getNewPassword()));
+        userService.saveUser(userFromDatabase);
+        return "redirect:/profile/" + userFromForm.getUsername() + "?status=updateSuccess";
     }
 
     public String validateUserFromForm(UserEntity userFromForm, UserEntity userFromDatabase) {

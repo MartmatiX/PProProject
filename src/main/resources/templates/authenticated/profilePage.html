@@ -7,6 +7,7 @@
     <p th:if="${param.status[0] == 'roleAltered'}">Role can not be changed!</p>
     <p th:if="${param.status[0] == 'usernameAltered'}">Username can not be changed!</p>
     <p th:if="${param.status[0] == 'passwordMatchError'}">Password is not correct!</p>
+    <p th:if="${param.status[0] == 'passwordMatchFail'}">Passwords are not matching!</p>
 </div>
 <div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
     <p th:if="${param.status[0] == 'updateSuccess'}">Information updated successfully!</p>
@@ -14,7 +15,7 @@
 <div class="d-flex justify-content-evenly align-items-center pt-5">
     <div class="w-50">
         <form th:action="@{/profile/updatePersonal}" method="POST">
-            <table class="table table-hover table-bordered">
+            <table class="table table-hover table-bordered rounded">
                 <tr>
                     <td class="text-center">Name</td>
                     <td>
@@ -60,7 +61,38 @@
         </form>
     </div>
     <div class="w-25">
-        asdfasdf
+        <form th:action="@{/profile/changePassword}" method="POST">
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <td class="text-center">Original password</td>
+                    <td>
+                        <input type="password" class="form-control text-center" name="originalPassword">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">New password</td>
+                    <td>
+                        <input type="password" class="form-control text-center" name="newPassword">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">Repeat new password</td>
+                    <td>
+                        <input type="password" class="form-control text-center" name="newPasswordRepeat">
+                    </td>
+                </tr>
+                <tr style="display: none">
+                    <td>
+                        <input type="text" th:value="${user.username}" name="username">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 </div>
 
