@@ -1,4 +1,4 @@
-package com.github.martmatix.pproproject.controllers;
+package com.github.martmatix.pproproject.controllers.authenticated;
 
 import com.github.martmatix.pproproject.DTOs.PasswordChangeUserDTO;
 import com.github.martmatix.pproproject.database.entities.UserEntity;

@@ -1,4 +1,4 @@
-package com.github.martmatix.pproproject.controllers;
+package com.github.martmatix.pproproject.controllers.admin;
 
 import com.github.martmatix.pproproject.custom_authorities.Role;
 import com.github.martmatix.pproproject.database.entities.UserEntity;

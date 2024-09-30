@@ -1,4 +1,4 @@
-package com.github.martmatix.pproproject.controllers;
+package com.github.martmatix.pproproject.controllers.anonymous;
 
 import com.github.martmatix.pproproject.DTOs.RegistrationFormUserDTO;
 import com.github.martmatix.pproproject.services.UserService;

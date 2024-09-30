@@ -24,7 +24,8 @@ public class SecurityConfig {
                                 .requestMatchers("/admin", "/admin/approve**").hasAuthority(Role.ADMINISTRATOR.getValue())
                                 .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
-                .formLogin(login -> login.loginPage("/login"));
+                .formLogin(login -> login.loginPage("/login")
+                        .defaultSuccessUrl("/"));
         return http.build();
     }
 
