@@ -6,12 +6,12 @@ import com.github.martmatix.pproproject.database.entities.UserEntity;
 import com.github.martmatix.pproproject.database.repositories.UserRepository;
 import jakarta.annotation.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class UserServiceImpl implements UserService{
 
     @Resource

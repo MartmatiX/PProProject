@@ -14,18 +14,18 @@
 <body class="bg-light text-dark">
 <header sec:authorize="isAnonymous()" class="pt-3">
     <nav class="d-flex flex-row-reverse">
-        <a class="btn btn-primary me-3 btn-lg" th:href="@{/register}">Register</a>
-        <a class="btn btn-primary me-3 btn-lg" th:href="@{/login}">Log in</a>
+        <a class="btn btn-primary me-3" th:href="@{/register}">Register</a>
+        <a class="btn btn-primary me-3" th:href="@{/login}">Log in</a>
     </nav>
 </header>
 <header sec:authorize="isAuthenticated()" class="pt-3">
     <nav class="d-flex flex-row-reverse">
         <form class="me-3" method="POST" th:action="@{/logout}">
-            <input class="btn btn-danger btn-lg" type="submit" name="logout" value="Log out">
+            <input class="btn btn-danger" type="submit" name="logout" value="Log out">
         </form>
-        <a class="btn btn-primary me-3 btn-lg" th:href="@{/profile/{username}(username=${#authentication.principal.username})}">Profile</a>
-        <a class="btn btn-primary me-3 btn-lg" th:href="@{/}">Home</a>
-        <a sec:authorize="hasAuthority('ADMINISTRATOR')" class="btn btn-info me-3 btn-lg" th:href="@{/admin}">Admin Panel</a>
+        <a class="btn btn-primary me-3" th:href="@{/profile/{username}(username=${#authentication.principal.username})}">Profile</a>
+        <a class="btn btn-primary me-3" th:href="@{/}">Home</a>
+        <a sec:authorize="hasAuthority('ADMINISTRATOR')" class="btn btn-info me-3" th:href="@{/admin}">Admin Panel</a>
     </nav>
 </header>
 <main class="pt-5" data-aos="zoom-in" data-aos-duration="700">
