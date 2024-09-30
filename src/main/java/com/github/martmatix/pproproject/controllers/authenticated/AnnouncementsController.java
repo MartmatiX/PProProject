@@ -23,14 +23,14 @@ public class AnnouncementsController {
     @PostMapping(path = "/announcements/delete/{id}")
     public String deleteAnnouncement(@PathVariable Long id) {
         announcementService.deleteById(id);
-        return "redirect:/announcements";
+        return "redirect:/announcements?status=deletedSuccessfully";
     }
 
     @PostMapping(path = "/announcements/add")
     public String addAnnouncement(@ModelAttribute AnnouncementEntity announcementEntity, Principal principal) {
         announcementEntity.setAdminUsername(principal.getName());
         announcementService.addAnnouncement(announcementEntity);
-        return "redirect:/announcements";
+        return "redirect:/announcements?status=addedSuccessfully";
     }
 
     @Autowired

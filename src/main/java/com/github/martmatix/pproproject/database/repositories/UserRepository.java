@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     List<UserEntity> findAllBy();
 
+    List<UserEntity> findAllByEnabled(boolean enabled);
+
 }

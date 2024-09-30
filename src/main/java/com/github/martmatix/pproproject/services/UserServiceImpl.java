@@ -74,4 +74,9 @@ public class UserServiceImpl implements UserService{
         userRepository.delete(user);
     }
 
+    @Override
+    public List<UserEntity> getAllActiveUsers(boolean enabled) {
+        return userRepository.findAllByEnabled(enabled);
+    }
+
 }

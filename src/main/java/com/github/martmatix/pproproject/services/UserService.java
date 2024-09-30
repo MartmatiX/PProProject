@@ -24,4 +24,6 @@ public interface UserService {
 
     void delete(UserEntity user);
 
+    List<UserEntity> getAllActiveUsers(boolean enabled);
+
 }
