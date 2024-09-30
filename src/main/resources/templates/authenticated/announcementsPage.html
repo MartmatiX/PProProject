@@ -14,10 +14,10 @@
             <input type="submit" class="btn btn-info mt-3" value="Update">
         </div>
     </form>
-    <div class="d-flex w-75 justify-content-end pb-3">
+    <div class="d-flex w-75 justify-content-end pb-3" sec:authorize="hasAuthority('ADMINISTRATOR')">
         <button id="btn-create" class="btn btn-primary">Create announcement</button>
     </div>
-    <div id="div-create" style="display: none;">
+    <div id="div-create" style="display: none;" sec:authorize="hasAuthority('ADMINISTRATOR')">
         <div class="d-flex justify-content-center align-items-center pt-2 pb-2">
             <form th:action="@{/announcements/add}" method="POST" class="d-flex flex-column justify-content-center">
                 <label for="title">Title:</label>
