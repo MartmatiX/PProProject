@@ -50,3 +50,11 @@ VALUES ("admin", "Title 1", "This is a testing announcement 1"),
        ("admin", "Title 3", "This is a testing announcement 3"),
        ("admin", "Title 4", "This is a testing announcement 4"),
        ("admin", "Title 5", "This is a testing announcement 5");
+
+create table message
+(
+    id            int auto_increment not null primary key,
+    sender_name   varchar(64),
+    receiver_name varchar(64),
+    message       varchar(1024)
+);

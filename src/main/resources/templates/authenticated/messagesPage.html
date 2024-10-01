@@ -16,6 +16,8 @@
                         <h3 class="card-text" th:text="${user.name} + ' ' + ${user.surname}"></h3>
                         <h4 class="card-text" th:text="${user.email}"></h4>
                         <h6 class="card-text" th:text="${user.role}"></h6>
+                        <a class="btn btn-primary" th:href="@{/message/{username}(username=${user.username})}">Open
+                            chat</a>
                     </div>
                 </div>
             </div>
