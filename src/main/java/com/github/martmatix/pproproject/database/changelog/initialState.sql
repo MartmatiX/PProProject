@@ -58,3 +58,11 @@ create table message
     receiver_name varchar(64),
     message       varchar(1024)
 );
+
+insert into message (sender_name, receiver_name, message)
+values ("admin", "martmatix", "Hello!"),
+       ("martmatix", "admin", "Hi"),
+       ("admin", "martmatix", "What are you doing?"),
+       ("martmatix", "admin", "Testing the messaging system"),
+       ("admin", "martmatix", "Does it work?"),
+       ("martmatix", "admin", "Without web socket, but yes, it does");
