@@ -75,3 +75,29 @@ values ("admin", "martmatix", "Hello!"),
        ("martmatix", "admin", "Testing the messaging system"),
        ("admin", "martmatix", "Does it work?"),
        ("martmatix", "admin", "Without web socket, but yes, it does");
+
+create table record_type
+(
+    id          int auto_increment not null primary key,
+    name        varchar(64),
+    description varchar(255),
+    issuer      varchar(64),
+    foreign key (issuer)
+        references user (username)
+        on update cascade
+);
+
+insert into record_type (name, description, issuer)
+values ("TICKET-01", "This is a test ticket", "admin"),
+       ("TICKET-02", "This is a test ticket number 2", "admin");
+
+create table record
+(
+    id       int auto_increment not null primary key,
+    date     date,
+    user     varchar(64),
+    approved boolean,
+    foreign key (user)
+        references user (username)
+        on update cascade
+)
