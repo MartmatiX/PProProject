@@ -79,7 +79,7 @@ values ("admin", "martmatix", "Hello!"),
 create table record_type
 (
     id          int auto_increment not null primary key,
-    name        varchar(64),
+    name        varchar(64) unique,
     description varchar(255),
     issuer      varchar(64),
     foreign key (issuer)
@@ -93,11 +93,20 @@ values ("TICKET-01", "This is a test ticket", "admin"),
 
 create table record
 (
-    id       int auto_increment not null primary key,
-    date     date,
-    user     varchar(64),
-    approved boolean,
+    id             int auto_increment not null primary key,
+    date           date,
+    user           varchar(64),
+    approved       boolean,
+    message        varchar(255),
+    record_type_id int,
     foreign key (user)
         references user (username)
+        on update cascade,
+    foreign key (record_type_id)
+        references record_type (id)
         on update cascade
-)
+);
+
+insert into record(date, user, approved, message, record_type_id)
+values ("2024-10-05", "admin", 1, "Updated something", 1),
+       ("2024-10-05", "admin", 1, "Added something", 1);

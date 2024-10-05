@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity(name = "record")
-public class Record {
+public class RecordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,12 +15,12 @@ public class Record {
     private Date date;
     private String user;
     private boolean approved;
+    private String message;
 
-    @Column(name = "record_type")
-    @Embedded
+    @OneToOne
     private RecordType recordType;
 
-    public Record() {
+    public RecordEntity() {
     }
 
     public Long getId() {
@@ -61,5 +61,13 @@ public class Record {
 
     public void setRecordType(RecordType recordType) {
         this.recordType = recordType;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

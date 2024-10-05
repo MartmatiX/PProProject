@@ -2,7 +2,6 @@ package com.github.martmatix.pproproject.database.entities.embeddable;
 
 import jakarta.persistence.*;
 
-@Embeddable
 @Entity(name = "record_type")
 public class RecordType {
 
