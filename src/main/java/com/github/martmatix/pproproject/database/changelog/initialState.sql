@@ -10,7 +10,7 @@ create table user
     name     varchar(64),
     surname  varchar(64),
     email    varchar(255),
-    username varchar(64),
+    username varchar(64) unique,
     password varchar(255),
     enabled  boolean,
     role     varchar(64)
@@ -41,7 +41,10 @@ create table announcement
     id             int auto_increment not null primary key,
     admin_username varchar(64),
     title          varchar(255),
-    message        varchar(2048)
+    message        varchar(2048),
+    foreign key (admin_username)
+        references user (username)
+        on delete cascade
 );
 
 insert into announcement (admin_username, title, message)
@@ -56,7 +59,13 @@ create table message
     id            int auto_increment not null primary key,
     sender_name   varchar(64),
     receiver_name varchar(64),
-    message       varchar(1024)
+    message       varchar(1024),
+    foreign key (sender_name)
+        references user (username)
+        on delete cascade,
+    foreign key (receiver_name)
+        references user (username)
+        on delete cascade
 );
 
 insert into message (sender_name, receiver_name, message)
