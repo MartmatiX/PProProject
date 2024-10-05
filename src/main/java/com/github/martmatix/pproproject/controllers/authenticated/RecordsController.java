@@ -28,11 +28,11 @@ public class RecordsController {
 
     @GetMapping(path = "/records/{date}")
     public String getRecordsDate(@PathVariable String date, Principal principal, Model model) {
-        Date dateFromString = new Date();
+        Date dateFromString;
         try {
             dateFromString = simpleDateFormat.parse(date);
-        } catch (ParseException e) { // TODO: catch the exception and give feedback to user
-            System.out.println(e);
+        } catch (ParseException e) {
+            return "redirect:/records?status=dateParseError";
         }
         List<RecordEntity> records = recordService.findRecordsByUsernameAndDate(principal.getName(), dateFromString);
         model.addAttribute("records", records);
