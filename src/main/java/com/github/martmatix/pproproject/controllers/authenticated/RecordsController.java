@@ -1,15 +1,13 @@
 package com.github.martmatix.pproproject.controllers.authenticated;
 
+import com.github.martmatix.pproproject.DTOs.RecordFormDTO;
 import com.github.martmatix.pproproject.database.entities.RecordEntity;
 import com.github.martmatix.pproproject.services.RecordService;
 import com.github.martmatix.pproproject.services.RecordTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.text.ParseException;
@@ -66,6 +64,12 @@ public class RecordsController {
         }
         recordService.deleteRecord(byId.get());
         return "redirect:/records/" + date;
+    }
+
+    @PostMapping(path = "/records/create")
+    public String createRecord(@ModelAttribute RecordFormDTO recordFormDTO) {
+        System.out.println(recordFormDTO.getMessage());
+        return "redirect:/records/" + recordFormDTO.getDate();
     }
 
     @Autowired
