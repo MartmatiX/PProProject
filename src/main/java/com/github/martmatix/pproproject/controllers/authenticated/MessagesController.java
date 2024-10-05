@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MessagesController {
@@ -30,6 +31,10 @@ public class MessagesController {
 
     @GetMapping(path = "/message/{username}")
     public String getMessageDetailPage(@PathVariable String username, Principal principal, Model model) {
+        Optional<UserEntity> user = userService.getUser(username);
+        if (user.isEmpty()) {
+            return "redirect:/messages?status=invalidUser";
+        }
         List<MessageEntity> messagesBetweenUsers = messageService.findMessagesBetweenUsers(principal.getName(), username);
         model.addAttribute("messages", messagesBetweenUsers);
         return "authenticated/messagesDetailPage";
@@ -37,6 +42,10 @@ public class MessagesController {
 
     @PostMapping(path = "/messages/send/{username}")
     public String sendMessage(@PathVariable String username, @ModelAttribute MessageEntity message, Principal principal) {
+        Optional<UserEntity> user = userService.getUser(username);
+        if (user.isEmpty()) {
+            return "redirect:/messages?status=invalidUser";
+        }
         if (message.getMessage().trim().isEmpty() || message.getMessage().trim().isBlank()) {
             return "redirect:/message/" + username + "?status=messageEmpty";
         }
