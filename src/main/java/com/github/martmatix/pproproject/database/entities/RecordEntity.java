@@ -16,6 +16,7 @@ public class RecordEntity {
     private String user;
     private boolean approved;
     private String message;
+    private int length;
 
     @OneToOne
     private RecordType recordType;
@@ -69,5 +70,13 @@ public class RecordEntity {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }

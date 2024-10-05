@@ -98,6 +98,7 @@ create table record
     user           varchar(64),
     approved       boolean,
     message        varchar(255),
+    length         int,
     record_type_id int,
     foreign key (user)
         references user (username)
@@ -107,6 +108,7 @@ create table record
         on update cascade
 );
 
-insert into record(date, user, approved, message, record_type_id)
-values ("2024-10-05", "admin", 1, "Updated something", 1),
-       ("2024-10-05", "admin", 1, "Added something", 1);
+insert into record(date, user, approved, message, length, record_type_id)
+values ("2024-10-05", "admin", 1, "Updated something", 100, 1),
+       ("2024-10-05", "admin", 1, "Added something", 100, 2),
+       ("2024-10-05", "admin", 0, "Not approved yet", 50, 1);

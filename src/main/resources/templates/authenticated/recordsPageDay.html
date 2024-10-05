@@ -1,5 +1,6 @@
 <th:block th:replace="~{/fragments/header.html}"></th:block>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+<script th:src="@{/createFormDisplay.js}"></script>
 
 <div class="d-flex">
     <a class="btn btn-info ms-3" th:href="@{/records}">&#8592; Back</a>
@@ -7,8 +8,78 @@
 <div class="d-flex justify-content-center align-items-center">
     <p class="display-3" th:text="'Records for ' + ${date}"></p>
 </div>
+<div class="d-flex justify-content-center align-items-center text-danger" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'unableToDelete'}">Unable to delete record!</p>
+</div>
+<div class="d-flex justify-content-center align-self-center pt-5">
+    <div class="w-75">
+        <p th:text="'Total worked time: ' + ${totalTime / 60} + 'h ' + ${totalTime % 60} + 'm'"></p>
+        <p th:text="'Total approved time: ' + ${approvedTime / 60} + 'h ' + ${approvedTime % 60} + 'm'"></p>
+    </div>
+</div>
+<div class="d-flex justify-content-center align-self-center mb-3 flex-column">
+    <div class="d-flex justify-content-center align-self-center">
+        <button id="btn-create" class="btn btn-primary">Create record</button>
+    </div>
+    <div style="display: none" id="div-create">
+        <div class="d-flex justify-content-center align-self-center pt-3">
+            <form class="d-flex flex-column justify-content-center align-self-center">
+                <label for="ticket">Ticket</label>
+                <select id="ticket" class="mb-2 form-select">
+                    <option></option>
+                    <option th:each="type : ${recordTypes}" th:value="${type.id}"
+                            th:text="${type.name} + ' - ' + ${type.description}"></option>
+                </select>
+                <textarea placeholder="What you did..." id="message" class="form-control mb-2" rows="1" cols="50"
+                          name="message"></textarea>
+                <div class="d-flex flex-row pb-2">
+                    <div class="d-flex flex-column">
+                        <label for="hour">Hours</label>
+                        <input class="form-control" id="hour" type="number" name="hour" placeholder="1">
+                    </div>
+                    <div class="d-flex flex-column">
+                        <label for="minute">Minutes</label>
+                        <input class="form-control" id="minute" type="number" name="minute" placeholder="15">
+                    </div>
+                </div>
+                <input type="submit" value="Create" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>
 <div class="d-flex justify-content-center align-self-center">
-    <p th:each="record : ${records}" th:text="${record.message}"></p>
+    <div class="w-75">
+        <table class="table table-bordered table-hover text-center">
+            <thead>
+            <tr>
+                <th>Ticket</th>
+                <th>Description</th>
+                <th>Issuer</th>
+                <th>Date</th>
+                <th>Message</th>
+                <th>Length</th>
+                <th>#</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="record : ${records}">
+                <td th:text="${record.recordType.name}"></td>
+                <td th:text="${record.recordType.description}"></td>
+                <td th:text="${record.recordType.issuer}"></td>
+                <td th:text="${#dates.format(record.date, 'yyyy-MM-dd')}"></td>
+                <td th:text="${record.message}"></td>
+                <td th:class="${record.approved ? 'bg-success text-white' : 'bg-secondary text-white'}"
+                    th:text="${record.length / 60} + 'h ' + ${record.length % 60} + 'm'"></td>
+                <td>
+                    <form th:action="@{/records/delete/?date={date}&id={id}(date=${date},id=${record.id})}"
+                          method="POST">
+                        <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <th:block th:replace="~{/fragments/footer.html}"></th:block>
