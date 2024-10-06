@@ -14,4 +14,6 @@ public interface RecordService {
 
     void deleteRecord(RecordEntity recordEntity);
 
+    void saveRecord(RecordEntity recordEntity);
+
 }

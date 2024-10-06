@@ -10,6 +10,13 @@
 </div>
 <div class="d-flex justify-content-center align-items-center text-danger" th:if="${param.status != null}">
     <p th:if="${param.status[0] == 'unableToDelete'}">Unable to delete record!</p>
+    <p th:if="${param.status[0] == 'invalidRecord'}">Not able to create record for this ticket!</p>
+    <p th:if="${param.status[0] == 'emtpyMessage'}">Please describe what you did!</p>
+    <p th:if="${param.status[0] == 'timeEmpty'}">Time can not be empty!</p>
+    <p th:if="${param.status[0] == 'dateParseError'}">Date is not valid!</p>
+</div>
+<div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'recordCreated'}">Record created!</p>
 </div>
 <div class="d-flex justify-content-center align-self-center pt-5">
     <div class="w-75">
@@ -26,10 +33,10 @@
             <form class="d-flex flex-column justify-content-center align-self-center" method="POST"
                   th:action="@{/records/create}">
                 <label for="ticket">Ticket</label>
-                <select id="ticket" class="mb-2 form-select" required>
+                <select id="ticket" class="mb-2 form-select" required name="ticketId">
                     <option></option>
                     <option th:each="type : ${recordTypes}" th:value="${type.id}"
-                            th:text="${type.name} + ' - ' + ${type.description}" name="ticketId"></option>
+                            th:text="${type.name} + ' - ' + ${type.description}"></option>
                 </select>
                 <textarea placeholder="What you did..." id="message" class="form-control mb-2" rows="1" cols="50"
                           name="message" required></textarea>

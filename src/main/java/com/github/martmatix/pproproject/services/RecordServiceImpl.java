@@ -29,6 +29,11 @@ public class RecordServiceImpl implements RecordService {
         recordRepository.delete(recordEntity);
     }
 
+    @Override
+    public void saveRecord(RecordEntity recordEntity) {
+        recordRepository.save(recordEntity);
+    }
+
     @Autowired
     public void setRecordRepository(RecordRepository recordRepository) {
         this.recordRepository = recordRepository;

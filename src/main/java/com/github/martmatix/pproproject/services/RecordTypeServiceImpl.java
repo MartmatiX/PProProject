@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecordTypeServiceImpl implements RecordTypeService{
@@ -15,6 +16,11 @@ public class RecordTypeServiceImpl implements RecordTypeService{
     @Override
     public List<RecordType> findAllRecordTypes() {
         return recordTypeRepository.findAll();
+    }
+
+    @Override
+    public Optional<RecordType> findRecordById(Long id) {
+        return recordTypeRepository.findById(id);
     }
 
     @Autowired

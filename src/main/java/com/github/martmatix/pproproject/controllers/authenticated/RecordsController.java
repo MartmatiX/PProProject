@@ -2,6 +2,7 @@ package com.github.martmatix.pproproject.controllers.authenticated;
 
 import com.github.martmatix.pproproject.DTOs.RecordFormDTO;
 import com.github.martmatix.pproproject.database.entities.RecordEntity;
+import com.github.martmatix.pproproject.database.entities.embeddable.RecordType;
 import com.github.martmatix.pproproject.services.RecordService;
 import com.github.martmatix.pproproject.services.RecordTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,9 +68,32 @@ public class RecordsController {
     }
 
     @PostMapping(path = "/records/create")
-    public String createRecord(@ModelAttribute RecordFormDTO recordFormDTO) {
-        System.out.println(recordFormDTO.getMessage());
-        return "redirect:/records/" + recordFormDTO.getDate();
+    public String createRecord(@ModelAttribute RecordFormDTO recordFormDTO, Principal principal) {
+        Optional<RecordType> recordById = recordTypeService.findRecordById(recordFormDTO.getTicketId());
+        if (recordById.isEmpty()) {
+            return "redirect:/records/" + recordFormDTO.getDate() + "?status=invalidRecord";
+        }
+        if (recordFormDTO.getMessage().trim().isBlank() || recordFormDTO.getMessage().trim().isEmpty()) {
+            return "redirect:/records/" + recordFormDTO.getDate() + "?status=emtpyMessage";
+        }
+        if (recordFormDTO.getMinute() == 0 || recordFormDTO.getMinute() == null) {
+            return "redirect:/records/" + recordFormDTO.getDate() + "?status=timeEmpty";
+        }
+        RecordEntity recordEntity = new RecordEntity();
+        recordEntity.setRecordType(recordById.get());
+        recordEntity.setMessage(recordFormDTO.getMessage());
+        recordEntity.setLength(recordFormDTO.getHour() * 60 + recordFormDTO.getMinute());
+        recordEntity.setApproved(false);
+        Date parsedDate;
+        try {
+            parsedDate = simpleDateFormat.parse(recordFormDTO.getDate());
+        } catch (ParseException e) {
+            return "redirect:/records/" + recordFormDTO.getDate() + "?status=dateParseError";
+        }
+        recordEntity.setDate(parsedDate);
+        recordEntity.setUser(principal.getName());
+        recordService.saveRecord(recordEntity);
+        return "redirect:/records/" + recordFormDTO.getDate() + "?status=recordCreated";
     }
 
     @Autowired
