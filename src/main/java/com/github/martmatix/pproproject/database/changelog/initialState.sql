@@ -109,6 +109,6 @@ create table record
 );
 
 insert into record(date, user, approved, message, length, record_type_id)
-values ("2024-10-05", "admin", 1, "Updated something", 100, 1),
-       ("2024-10-05", "admin", 1, "Added something", 100, 2),
-       ("2024-10-05", "admin", 0, "Not approved yet", 50, 1);
+values (curdate(), "admin", 1, "Updated something", 100, 1),
+       (curdate(), "admin", 1, "Added something", 100, 2),
+       (curdate(), "admin", 0, "Not approved yet", 50, 1);
