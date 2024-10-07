@@ -14,6 +14,7 @@
     <p th:if="${param.status[0] == 'emtpyMessage'}">Please describe what you did!</p>
     <p th:if="${param.status[0] == 'timeEmpty'}">Time can not be empty!</p>
     <p th:if="${param.status[0] == 'dateParseError'}">Date is not valid!</p>
+    <p th:if="${param.status[0] == 'unableToDeleteConfirmed'}">You can not delete approved records!</p>
 </div>
 <div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
     <p th:if="${param.status[0] == 'recordCreated'}">Record created!</p>
@@ -80,7 +81,7 @@
                 <td th:class="${record.approved ? 'bg-success text-white' : 'bg-secondary text-white'}"
                     th:text="${record.length / 60} + 'h ' + ${record.length % 60} + 'm'"></td>
                 <td>
-                    <form th:action="@{/records/delete/?date={date}&id={id}(date=${date},id=${record.id})}"
+                    <form th:if="${!record.approved}" th:action="@{/records/delete/?date={date}&id={id}(date=${date},id=${record.id})}"
                           method="POST">
                         <input type="submit" value="Delete" class="btn btn-danger">
                     </form>

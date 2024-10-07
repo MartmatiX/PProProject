@@ -63,6 +63,9 @@ public class RecordsController {
         if (byId.isEmpty()) {
             return "redirect:/records/" + date + "?status=unableToDelete";
         }
+        if (byId.get().isApproved()) {
+            return "redirect:/records/" + date + "?status=unableToDeleteConfirmed";
+        }
         recordService.deleteRecord(byId.get());
         return "redirect:/records/" + date;
     }
