@@ -15,7 +15,7 @@ public class RecordTypeServiceImpl implements RecordTypeService{
 
     @Override
     public List<RecordType> findAllRecordTypes() {
-        return recordTypeRepository.findAll();
+        return recordTypeRepository.findAllByOrderByClosed();
     }
 
     @Override

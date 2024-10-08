@@ -11,4 +11,7 @@ public interface RecordTypeRepository extends JpaRepository<RecordType, Long> {
 
     List<RecordType> findAllByClosed(boolean closed);
 
+    List<RecordType> findAllByOrderByClosed();
+
+
 }
