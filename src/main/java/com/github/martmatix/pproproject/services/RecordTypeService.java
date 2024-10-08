@@ -11,4 +11,6 @@ public interface RecordTypeService {
 
     Optional<RecordType> findRecordById(Long id);
 
+    List<RecordType> findAllByClosed(boolean closed);
+
 }

@@ -23,6 +23,11 @@ public class RecordTypeServiceImpl implements RecordTypeService{
         return recordTypeRepository.findById(id);
     }
 
+    @Override
+    public List<RecordType> findAllByClosed(boolean closed) {
+        return recordTypeRepository.findAllByClosed(closed);
+    }
+
     @Autowired
     public void setRecordTypeRepository(RecordTypeRepository recordTypeRepository) {
         this.recordTypeRepository = recordTypeRepository;

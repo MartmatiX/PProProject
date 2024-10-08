@@ -12,6 +12,7 @@ public class RecordType {
     private String name;
     private String description;
     private String issuer;
+    private boolean closed;
 
     public RecordType() {
     }
@@ -46,5 +47,13 @@ public class RecordType {
 
     public void setIssuer(String issuer) {
         this.issuer = issuer;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 }

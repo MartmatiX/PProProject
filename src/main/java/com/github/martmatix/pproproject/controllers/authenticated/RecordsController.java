@@ -51,7 +51,7 @@ public class RecordsController {
         model.addAttribute("totalTime", totalTime);
         model.addAttribute("approvedTime", approvedTime);
 
-        model.addAttribute("recordTypes", recordTypeService.findAllRecordTypes());
+        model.addAttribute("recordTypes", recordTypeService.findAllByClosed(false));
 
         model.addAttribute("records", records);
         return "/authenticated/recordsPageDay";
@@ -75,6 +75,9 @@ public class RecordsController {
         Optional<RecordType> recordById = recordTypeService.findRecordById(recordFormDTO.getTicketId());
         if (recordById.isEmpty()) {
             return "redirect:/records/" + recordFormDTO.getDate() + "?status=invalidRecord";
+        }
+        if (recordById.get().isClosed()) {
+            return "redirect:/records/" + recordFormDTO.getDate() + "?status=ticketClosed";
         }
         if (recordFormDTO.getMessage().trim().isBlank() || recordFormDTO.getMessage().trim().isEmpty()) {
             return "redirect:/records/" + recordFormDTO.getDate() + "?status=emtpyMessage";

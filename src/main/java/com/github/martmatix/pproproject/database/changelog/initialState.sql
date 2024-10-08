@@ -24,16 +24,10 @@ insert into user(name,
                  enabled,
                  role)
 values ("Martin", "Malir", "malirma1@uhk.cz", "martmatix",
-        "$2a$10$zJrpOcdVz9VWz3YocZrl/.PdoJGduKtk4v0IZmldHbAO3FzH5hI5K", true, "USER");
-
-insert into user(name,
-                 surname,
-                 email,
-                 username,
-                 password,
-                 enabled,
-                 role)
-values ("admin", "admin", "admin@gmail.com", "admin",
+        "$2a$10$zJrpOcdVz9VWz3YocZrl/.PdoJGduKtk4v0IZmldHbAO3FzH5hI5K", true, "USER"),
+       ("admin", "admin", "admin@gmail.com", "admin",
+        "$2a$10$zJrpOcdVz9VWz3YocZrl/.PdoJGduKtk4v0IZmldHbAO3FzH5hI5K", true, "ADMINISTRATOR"),
+       ("admin2", "admin2", "admin2@gmail.com", "admin2",
         "$2a$10$zJrpOcdVz9VWz3YocZrl/.PdoJGduKtk4v0IZmldHbAO3FzH5hI5K", true, "ADMINISTRATOR");
 
 create table announcement
@@ -82,14 +76,16 @@ create table record_type
     name        varchar(64) unique,
     description varchar(255),
     issuer      varchar(64),
+    closed      boolean,
     foreign key (issuer)
         references user (username)
         on update cascade
 );
 
-insert into record_type (name, description, issuer)
-values ("TICKET-01", "This is a test ticket", "admin"),
-       ("TICKET-02", "This is a test ticket number 2", "admin");
+insert into record_type (name, description, issuer, closed)
+values ("TICKET-01", "This is a test ticket", "admin", false),
+       ("TICKET-02", "This is a test ticket number 2", "admin", false),
+       ("TICKET-03", "This is a closed ticket", "admin", true);
 
 create table record
 (
