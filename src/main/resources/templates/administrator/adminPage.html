@@ -74,6 +74,10 @@
 <div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
     <p th:if="${param.status[0] == 'ticketCreated'}">Ticket created successfully!</p>
 </div>
+<div class="d-flex justify-content-center align-items-center text-danger" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'ticketNameEmpty'}">Ticket name can not be empty!</p>
+    <p th:if="${param.status[0] == 'ticketDescriptionEmpty'}">Ticket description can not be empty!</p>
+</div>
 <div class="d-flex justify-content-center align-self-center mb-3 flex-column">
     <div class="d-flex justify-content-center align-self-center">
         <button id="btn-create" class="btn btn-primary">Create record</button>
@@ -83,8 +87,8 @@
             <form class="d-flex flex-column justify-content-center align-self-center" method="POST"
                   th:action="@{/admin/createTicket}">
                 <label for="ticketName">Ticket name:</label>
-                <input type="text" name="name" id="ticketName" placeholder="TICKET-01" class="form-control">
-                <label for="ticketDescription">Ticket Description:</label>
+                <input type="text" name="name" id="ticketName" placeholder="TICKET-01" class="form-control" required>
+                <label for="ticketDescription" class="pt-2">Ticket Description:</label>
                 <textarea placeholder="Ticket for documentation update..." name="description" id="ticketDescription" class="form-control mb-2" rows="1" cols="50"
                           required></textarea>
                 <input type="submit" value="Create ticket" class="btn btn-success">

@@ -117,6 +117,12 @@ public class AdminController {
 
     @PostMapping(path = "/admin/createTicket")
     public String createTicket(@ModelAttribute TicketDTO ticketDTO) {
+        if (ticketDTO.getName().trim().isEmpty() || ticketDTO.getName().trim().isBlank()) {
+            return "redirect:/admin?status=ticketNameEmpty";
+        }
+        if (ticketDTO.getDescription().trim().isEmpty() || ticketDTO.getDescription().trim().isBlank()) {
+            return "redirect:/admin?status=ticketDescriptionEmpty";
+        }
         System.out.println(ticketDTO.getName());
         return "redirect:/admin?status=ticketCreated";
     }
