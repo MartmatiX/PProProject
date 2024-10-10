@@ -28,6 +28,21 @@ public class RecordTypeServiceImpl implements RecordTypeService{
         return recordTypeRepository.findAllByClosed(closed);
     }
 
+    @Override
+    public void save(RecordType recordType) {
+        recordTypeRepository.save(recordType);
+    }
+
+    @Override
+    public Optional<RecordType> findByName(String name) {
+        return recordTypeRepository.findByName(name);
+    }
+
+    @Override
+    public void deleteTicket(RecordType recordType) {
+        recordTypeRepository.delete(recordType);
+    }
+
     @Autowired
     public void setRecordTypeRepository(RecordTypeRepository recordTypeRepository) {
         this.recordTypeRepository = recordTypeRepository;

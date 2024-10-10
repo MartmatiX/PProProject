@@ -1,6 +1,7 @@
 package com.github.martmatix.pproproject.services;
 
 import com.github.martmatix.pproproject.database.entities.RecordEntity;
+import com.github.martmatix.pproproject.database.entities.embeddable.RecordType;
 import com.github.martmatix.pproproject.database.repositories.RecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,11 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public void saveRecord(RecordEntity recordEntity) {
         recordRepository.save(recordEntity);
+    }
+
+    @Override
+    public List<RecordEntity> findByRecordType(RecordType recordType) {
+        return recordRepository.findAllByRecordType(recordType);
     }
 
     @Autowired

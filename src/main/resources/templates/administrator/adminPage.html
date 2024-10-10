@@ -73,10 +73,16 @@
 </div>
 <div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
     <p th:if="${param.status[0] == 'ticketCreated'}">Ticket created successfully!</p>
+    <p th:if="${param.status[0] == 'ticketClosed'}">Ticket closed successfully!</p>
+    <p th:if="${param.status[0] == 'ticketDeleted'}">Ticket deleted successfully!</p>
+    <p th:if="${param.status[0] == 'ticketReopened'}">Ticket re-opened successfully!</p>
 </div>
 <div class="d-flex justify-content-center align-items-center text-danger" th:if="${param.status != null}">
     <p th:if="${param.status[0] == 'ticketNameEmpty'}">Ticket name can not be empty!</p>
     <p th:if="${param.status[0] == 'ticketDescriptionEmpty'}">Ticket description can not be empty!</p>
+    <p th:if="${param.status[0] == 'ticketNameTaken'}">Ticket already exists!</p>
+    <p th:if="${param.status[0] == 'ticketNotFound'}">Ticket with this name does not exist!</p>
+    <p th:if="${param.status[0] == 'ticketUsed'}">There are records linked with this ticket. Can not close!</p>
 </div>
 <div class="d-flex justify-content-center align-self-center mb-3 flex-column">
     <div class="d-flex justify-content-center align-self-center">
@@ -109,13 +115,21 @@
         </thead>
         <tbody>
         <tr th:each="recordType : ${recordTypes}">
-            <td th:text="${recordType.id}"></td>
-            <td th:text="${recordType.name}"></td>
-            <td th:text="${recordType.description}"></td>
-            <td th:text="${recordType.issuer}"></td>
-            <td>
-                <form>
-
+            <td th:class="${recordType.closed ? 'bg-secondary text-white' : ''}" th:text="${recordType.id}"></td>
+            <td th:class="${recordType.closed ? 'bg-secondary text-white' : ''}" th:text="${recordType.name}"></td>
+            <td th:class="${recordType.closed ? 'bg-secondary text-white' : ''}" th:text="${recordType.description}"></td>
+            <td th:class="${recordType.closed ? 'bg-secondary text-white' : ''}" th:text="${recordType.issuer}"></td>
+            <td th:if="${recordType.closed}" th:class="${recordType.closed ? 'bg-secondary text-white' : ''}">
+                <form th:action="@{/admin/reopenTicket/{ticketName}(ticketName=${recordType.name})}" method="POST" class="pe-3">
+                    <input class="btn btn-secondary" type="submit" value="Re-open">
+                </form>
+            </td>
+            <td th:if="${!recordType.closed}" class="d-flex flex-row">
+                <form th:action="@{/admin/completeTicket/{ticketName}(ticketName=${recordType.name})}" method="POST" class="pe-3">
+                    <input class="btn btn-success" type="submit" value="Close">
+                </form>
+                <form th:action="@{/admin/removeTicket/{ticketName}(ticketName=${recordType.name})}" method="POST">
+                    <input class="btn btn-danger" type="submit" value="Delete">
                 </form>
             </td>
         </tr>

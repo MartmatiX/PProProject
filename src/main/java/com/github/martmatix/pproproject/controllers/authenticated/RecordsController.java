@@ -88,7 +88,7 @@ public class RecordsController {
         RecordEntity recordEntity = new RecordEntity();
         recordEntity.setRecordType(recordById.get());
         recordEntity.setMessage(recordFormDTO.getMessage());
-        recordEntity.setLength(recordFormDTO.getHour() * 60 + recordFormDTO.getMinute());
+        recordEntity.setLength(recordFormDTO.getHour() == null ? recordFormDTO.getMinute() : recordFormDTO.getHour() * 60 + recordFormDTO.getMinute());
         recordEntity.setApproved(false);
         Date parsedDate;
         try {

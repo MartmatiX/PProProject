@@ -2,8 +2,10 @@ package com.github.martmatix.pproproject.controllers.admin;
 
 import com.github.martmatix.pproproject.DTOs.TicketDTO;
 import com.github.martmatix.pproproject.custom_authorities.Role;
+import com.github.martmatix.pproproject.database.entities.RecordEntity;
 import com.github.martmatix.pproproject.database.entities.UserEntity;
 import com.github.martmatix.pproproject.database.entities.embeddable.RecordType;
+import com.github.martmatix.pproproject.services.RecordService;
 import com.github.martmatix.pproproject.services.RecordTypeService;
 import com.github.martmatix.pproproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ public class AdminController {
 
     private UserService userService;
     private RecordTypeService recordTypeService;
+    private RecordService recordService;
 
     @GetMapping(path = "/admin")
     public String returnAdminPage(Model model) {
@@ -116,15 +119,60 @@ public class AdminController {
     }
 
     @PostMapping(path = "/admin/createTicket")
-    public String createTicket(@ModelAttribute TicketDTO ticketDTO) {
+    public String createTicket(@ModelAttribute TicketDTO ticketDTO, Principal principal) {
         if (ticketDTO.getName().trim().isEmpty() || ticketDTO.getName().trim().isBlank()) {
             return "redirect:/admin?status=ticketNameEmpty";
         }
         if (ticketDTO.getDescription().trim().isEmpty() || ticketDTO.getDescription().trim().isBlank()) {
             return "redirect:/admin?status=ticketDescriptionEmpty";
         }
-        System.out.println(ticketDTO.getName());
+        Optional<RecordType> ticketByName = recordTypeService.findByName(ticketDTO.getName());
+        if (ticketByName.isPresent()) {
+            return "redirect:/admin?status=ticketNameTaken";
+        }
+        RecordType recordType = new RecordType();
+        recordType.setName(ticketDTO.getName());
+        recordType.setDescription(ticketDTO.getDescription());
+        recordType.setClosed(false);
+        recordType.setIssuer(principal.getName());
+        recordTypeService.save(recordType);
         return "redirect:/admin?status=ticketCreated";
+    }
+
+    @PostMapping(path = "/admin/completeTicket/{ticketName}")
+    public String closeTicket(@PathVariable String ticketName) {
+        Optional<RecordType> ticketByName = recordTypeService.findByName(ticketName);
+        if (ticketByName.isEmpty()) {
+            return "redirect:/admin?status=ticketNotFound";
+        }
+        ticketByName.get().setClosed(true);
+        recordTypeService.save(ticketByName.get());
+        return "redirect:/admin?status=ticketClosed";
+    }
+
+    @PostMapping(path = "/admin/removeTicket/{ticketName}")
+    public String removeTicket(@PathVariable String ticketName) {
+        Optional<RecordType> ticketByName = recordTypeService.findByName(ticketName);
+        if (ticketByName.isEmpty()) {
+            return "redirect:/admin?status=ticketNotFound";
+        }
+        List<RecordEntity> byRecordType = recordService.findByRecordType(ticketByName.get());
+        if (byRecordType.isEmpty()) {
+            recordTypeService.deleteTicket(ticketByName.get());
+            return "redirect:/admin?status=ticketDeleted";
+        }
+        return "redirect:/admin?status=ticketUsed";
+    }
+
+    @PostMapping(path = "/admin/reopenTicket/{ticketName}")
+    public String reopenTicket(@PathVariable String ticketName) {
+        Optional<RecordType> ticketByName = recordTypeService.findByName(ticketName);
+        if (ticketByName.isEmpty()) {
+            return "redirect:/admin?status=ticketNotFound";
+        }
+        ticketByName.get().setClosed(false);
+        recordTypeService.save(ticketByName.get());
+        return "redirect:/admin?status=ticketReopened";
     }
 
     private String validateByUsername(String username, Principal principal) {
@@ -145,5 +193,10 @@ public class AdminController {
     @Autowired
     public void setRecordTypeService(RecordTypeService recordTypeService) {
         this.recordTypeService = recordTypeService;
+    }
+
+    @Autowired
+    public void setRecordService(RecordService recordService) {
+        this.recordService = recordService;
     }
 }

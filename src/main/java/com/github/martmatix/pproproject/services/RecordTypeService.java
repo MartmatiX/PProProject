@@ -13,4 +13,10 @@ public interface RecordTypeService {
 
     List<RecordType> findAllByClosed(boolean closed);
 
+    void save(RecordType recordType);
+
+    Optional<RecordType> findByName(String name);
+
+    void deleteTicket(RecordType recordType);
+
 }

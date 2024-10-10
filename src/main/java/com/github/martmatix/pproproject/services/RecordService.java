@@ -1,6 +1,7 @@
 package com.github.martmatix.pproproject.services;
 
 import com.github.martmatix.pproproject.database.entities.RecordEntity;
+import com.github.martmatix.pproproject.database.entities.embeddable.RecordType;
 
 import java.util.Date;
 import java.util.List;
@@ -15,5 +16,7 @@ public interface RecordService {
     void deleteRecord(RecordEntity recordEntity);
 
     void saveRecord(RecordEntity recordEntity);
+
+    List<RecordEntity> findByRecordType(RecordType recordType);
 
 }
