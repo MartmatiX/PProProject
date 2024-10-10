@@ -22,7 +22,8 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers("/register", "/register/validateRegistration", "/login").anonymous()
                                 .requestMatchers("/admin", "/admin/approve**", "/admin/revoke**", "/admin/elevate**", "/admin/degrade**",
-                                        "/announcements/delete**", "/announcements/add").hasAuthority(Role.ADMINISTRATOR.getValue())
+                                        "/announcements/delete**", "/announcements/add",
+                                        "/admin/completeTicket/", "/admin/createTicket", "/admin/removeTicket/", "/admin/reopenTicket/").hasAuthority(Role.ADMINISTRATOR.getValue())
                                 .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
                 .formLogin(login -> login.loginPage("/login")
