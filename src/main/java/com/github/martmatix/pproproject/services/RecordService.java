@@ -19,4 +19,6 @@ public interface RecordService {
 
     List<RecordEntity> findByRecordType(RecordType recordType);
 
+    List<RecordEntity> findRecordsForUser(String username);
+
 }

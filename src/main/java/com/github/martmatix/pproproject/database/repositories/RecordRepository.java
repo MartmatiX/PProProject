@@ -15,4 +15,6 @@ public interface RecordRepository extends JpaRepository<RecordEntity, Long> {
 
     List<RecordEntity> findAllByRecordType(RecordType recordType);
 
+    List<RecordEntity> findAllByUserOrderByDate(String user);
+
 }

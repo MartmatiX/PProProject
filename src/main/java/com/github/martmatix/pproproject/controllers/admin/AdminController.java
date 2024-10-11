@@ -118,6 +118,20 @@ public class AdminController {
         return "redirect:/admin?status=userDeleted";
     }
 
+    @GetMapping(path = "/admin/viewRecords/{username}")
+    public String viewUserRecords(@PathVariable String username, Model model, Principal principal) {
+        Optional<UserEntity> user = userService.getUser(username);
+        if (user.isEmpty()) {
+            return "redirect:/admin?status=userRetrieveFail";
+        }
+        if (username.equals(principal.getName())) {
+            return "redirect:/admin?status=sameUser";
+        }
+        List<RecordEntity> recordsForUser = recordService.findRecordsForUser(username);
+        model.addAttribute("records", recordsForUser);
+        return "/administrator/userRecordsPage";
+    }
+
     @PostMapping(path = "/admin/createTicket")
     public String createTicket(@ModelAttribute TicketDTO ticketDTO, Principal principal) {
         if (ticketDTO.getName().trim().isEmpty() || ticketDTO.getName().trim().isBlank()) {

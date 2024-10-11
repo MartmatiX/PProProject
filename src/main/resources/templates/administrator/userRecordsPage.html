@@ -1,0 +1,80 @@
+<th:block th:replace="~{/fragments/header.html}"></th:block>
+
+<div class="d-flex">
+    <a class="btn btn-info ms-3" th:href="@{/admin}">&#8592; Back</a>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+    <p class="display-3" th:text="'Records by ' + ${username}"></p>
+</div>
+<div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'approved'}">Record approved!</p>
+</div>
+<div class="d-flex justify-content-center align-items-center text-danger" th:if="${param.status != null}">
+    <p th:if="${param.status[0] == 'recordDoesNotExist'}">Record does not exist!</p>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+    <table class="table table-hover table-bordered w-75">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Ticket</th>
+            <th>Description</th>
+            <th>Issuer</th>
+            <th>Date</th>
+            <th>Message</th>
+            <th>Length</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record : ${records}" th:if="${!record.approved}">
+            <td th:text="${record.id}"></td>
+            <td th:text="${record.recordType.name}"></td>
+            <td th:text="${record.recordType.description}"></td>
+            <td th:text="${record.recordType.issuer}"></td>
+            <td th:text="${#dates.format(record.date, 'yyyy-MM-dd')}"></td>
+            <td th:text="${record.message}"></td>
+            <td th:text="${record.length / 60} + 'h ' + ${record.length % 60} + 'm'"></td>
+            <td>
+                <form th:if="${!record.approved}"
+                      th:action="@{/admin/viewRecords/approve?recordId={recordId}&user={user}(recordId=${record.id},user=${username})}"
+                      method="POST">
+                    <input type="submit" value="Approve" class="btn btn-success">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="d-flex justify-content-center align-items-center pt-5">
+    <p class="display-5">Approved records</p>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+    <table class="table table-hover table-bordered w-75">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Ticket</th>
+            <th>Description</th>
+            <th>Issuer</th>
+            <th>Date</th>
+            <th>Message</th>
+            <th>Length</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record : ${records}" th:if="${record.approved}">
+            <td th:text="${record.id}"></td>
+            <td th:text="${record.recordType.name}"></td>
+            <td th:text="${record.recordType.description}"></td>
+            <td th:text="${record.recordType.issuer}"></td>
+            <td th:text="${#dates.format(record.date, 'yyyy-MM-dd')}"></td>
+            <td th:text="${record.message}"></td>
+            <td th:text="${record.length / 60} + 'h ' + ${record.length % 60} + 'm'"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<th:block th:replace="~{/fragments/footer.html}"></th:block>

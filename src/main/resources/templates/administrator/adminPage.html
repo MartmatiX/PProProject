@@ -8,6 +8,7 @@
     <p th:if="${param.status[0] == 'idNotValid'}">Provided ID is not valid!</p>
     <p th:if="${param.status[0] == 'alterSelfError'}">You can not alter yourself!</p>
     <p th:if="${param.status[0] == 'userRetrieveFail'}">Unable to retrieve user!</p>
+    <p th:if="${param.status[0] == 'sameUser'}">You can not approve your own records!</p>
 </div>
 <div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
     <p th:if="${param.status[0] == 'approved'}">User approved successfully!</p>
@@ -62,13 +63,16 @@
                           th:action="@{/admin/delete/{username}(username=${user.username})}">
                         <input type="submit" value="Yes" class="btn btn-danger">
                     </form>
+                    <form class="ms-5" method="GET" th:action="@{/admin/viewRecords/{username}(username=${user.username})}">
+                        <input type="submit" value="View Records" class="btn btn-info">
+                    </form>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
-<div class="d-flex justify-content-center align-items-center">
+<div class="d-flex justify-content-center align-items-center pt-5">
     <p class="display-3">Tickets</p>
 </div>
 <div class="d-flex justify-content-center align-items-center text-success" th:if="${param.status != null}">
@@ -86,7 +90,7 @@
 </div>
 <div class="d-flex justify-content-center align-self-center mb-3 flex-column">
     <div class="d-flex justify-content-center align-self-center">
-        <button id="btn-create" class="btn btn-primary">Create record</button>
+        <button id="btn-create" class="btn btn-primary">Create ticket</button>
     </div>
     <div style="display: none" id="div-create">
         <div class="d-flex justify-content-center align-self-center pt-3">

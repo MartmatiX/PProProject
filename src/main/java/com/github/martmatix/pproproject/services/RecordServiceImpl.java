@@ -40,6 +40,11 @@ public class RecordServiceImpl implements RecordService {
         return recordRepository.findAllByRecordType(recordType);
     }
 
+    @Override
+    public List<RecordEntity> findRecordsForUser(String username) {
+        return recordRepository.findAllByUserOrderByDate(username);
+    }
+
     @Autowired
     public void setRecordRepository(RecordRepository recordRepository) {
         this.recordRepository = recordRepository;
